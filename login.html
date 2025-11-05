@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mitiuw — Login</title>
+    <meta
+      name="description"
+      content="Login demo de Mitiuw — página de ejemplo con muchas funcionalidades, solo HTML con CSS y JS embebido."
+    />
+    <!-- Fav-ish -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231E90FF' /><text x='50' y='58' font-size='40' text-anchor='middle' fill='white' font-family='Arial'>M</text></svg>"
+    />
+
+    <style>
+      /* Reset suave */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #0b3a66 40%,
+          #0b2a3a 100%
+        );
+        color: #e6eef8;
+        padding: 20px;
+        transition: background 300ms ease;
+      }
+
+      /* Card */
+      .card {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 24px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.02)
+        );
+        border-radius: 14px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+        backdrop-filter: blur(6px);
+      }
+
+      /* Left - showcase */
+      .showcase {
+        padding: 22px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+      }
+      .logo {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .logo .icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #7dd3fc, #60a5fa);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #05203a;
+        font-size: 28px;
+        box-shadow: 0 6px 20px rgba(32, 124, 255, 0.12),
+          inset 0 -6px 18px rgba(255, 255, 255, 0.06);
+      }
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.05;
+      }
+      p.lead {
+        margin: 0;
+        color: rgba(230, 238, 248, 0.85);
+      }
+
+      /* Cards for features */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        width: 100%;
+      }
+      .feat {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        color: rgba(230, 238, 248, 0.9);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .feat svg {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+      }
+
+      /* Right - form */
+      .form-wrap {
+        padding: 20px;
+        border-radius: 10px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .panel-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .panel-title h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .theme-toggle {
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        background: transparent;
+        color: inherit;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      label {
+        font-size: 13px;
+        color: rgba(230, 238, 248, 0.85);
+      }
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: transparent;
+        color: inherit;
+        font-size: 15px;
+        outline: none;
+        transition: box-shadow 0.18s, border-color 0.18s;
+      }
+      input:focus {
+        box-shadow: 0 6px 20px rgba(16, 24, 40, 0.5);
+        border-color: rgba(125, 211, 252, 0.18);
+      }
+
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .checkbox {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(90deg, #4f46e5, #2563eb);
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .socials {
+        display: flex;
+        gap: 8px;
+      }
+      .social-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .hint {
+        font-size: 13px;
+        color: rgba(230, 238, 248, 0.65);
+      }
+
+      .help-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: rgba(230, 238, 248, 0.7);
+      }
+
+      .error {
+        color: #ffb4b4;
+        background: rgba(255, 82, 82, 0.06);
+        padding: 8px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+      .success {
+        color: #b7f5c4;
+        background: rgba(88, 214, 141, 0.06);
+        padding: 8px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+
+      /* password row */
+      .pass-row {
+        display: flex;
+        gap: 8px;
+      }
+      .pass-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .icon-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      /* strength bar */
+      .strength {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .strength > i {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ef4444, #f97316);
+        transition: width 0.25s ease;
+      }
+
+      /* footer small */
+      .small {
+        font-size: 13px;
+        color: rgba(230, 238, 248, 0.65);
+      }
+
+      /* modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          0deg,
+          rgba(2, 6, 23, 0.6),
+          rgba(2, 6, 23, 0.6)
+        );
+        z-index: 50;
+      }
+      .modal {
+        background: linear-gradient(180deg, #071226, #04142a);
+        padding: 18px;
+        border-radius: 12px;
+        max-width: 520px;
+        width: 92%;
+      }
+      .modal h3 {
+        margin: 0 0 6px 0;
+      }
+
+      /* small screens */
+      @media (max-width: 900px) {
+        .card {
+          grid-template-columns: 1fr;
+          padding: 18px;
+        }
+        .showcase {
+          order: 2;
+        }
+      }
+
+      /* dark mode inversion (toggle) */
+      .light body {
+        background: linear-gradient(
+          135deg,
+          #f4f7ff 0%,
+          #eaf2ff 40%,
+          #f2f9ff 100%
+        );
+        color: #0b1220;
+      }
+      .light .card {
+        background: linear-gradient(
+          180deg,
+          rgba(2, 6, 23, 0.02),
+          rgba(2, 6, 23, 0.01)
+        );
+        color: #071226;
+      }
+      .light .feat {
+        color: #071226;
+      }
+      .light .btn {
+        box-shadow: 0 8px 18px rgba(78, 70, 229, 0.08);
+      }
+      /* small accessible focus */
+      :focus {
+        outline: 3px solid rgba(125, 211, 252, 0.18);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" id="app" aria-live="polite">
+      <!-- LEFT: Showcase / Branding -->
+      <section class="showcase" aria-hidden="false">
+        <div class="logo">
+          <div class="icon" aria-hidden="true">M</div>
+          <div>
+            <div style="font-weight: 700">Mitiuw</div>
+            <div style="font-size: 13px; color: rgba(230, 238, 248, 0.6)">
+              Conecta. Comparte. Crece.
+            </div>
+          </div>
+        </div>
+
+        <h1>Bienvenido a Mitiuw</h1>
+        <p class="lead">
+          Iniciá sesión y empezá a compartir tus ideas.
+        </p>
+
+        <div class="features" role="list" aria-label="Características">
+          <div class="feat" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 2L20 8v8l-8 6-8-6V8l8-6z"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <div>
+              <div style="font-weight: 600">Tema oscuro/Claro</div>
+              <div style="font-size: 12px">Elige un tema claro o oscuro de tu preferencia</div>
+            </div>
+          </div>
+
+          <div class="feat" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div>
+              <div style="font-weight: 600">Validación instantánea</div>
+              <div style="font-size: 12px">Errores claros y ayuda online</div>
+            </div>
+          </div>
+
+          <div class="feat" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+            </svg>
+            <div>
+              <div style="font-weight: 600">Recordar usuario</div>
+              <div style="font-size: 12px">
+                Guarda correo y contraseña en el navegador
+              </div>
+            </div>
+          </div>
+
+          <div class="feat" role="listitem">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M21 15v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+              <path
+                d="M7 10l5 5 5-5"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+            </svg>
+            <div>
+              <div style="font-weight: 600">Iniciar con redes sociales</div>
+              <div style="font-size: 12px">Google / GitHub / Twitter</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Form -->
+      <section class="form-wrap" aria-labelledby="loginTitle">
+        <div class="panel-title">
+          <h2 id="loginTitle">Iniciar sesión</h2>
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-pressed="false"
+            title="Cambiar tema"
+          >
+            🌙 Modo
+          </button>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <!-- Email -->
+          <div>
+            <label for="email">Correo electrónico</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              placeholder="tunombre@ejemplo.com"
+              required
+              aria-required="true"
+            />
+            <div id="emailHelp" class="hint">
+              Usá un correo válido (ej: demo@mitiuw.com)
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="password">Contraseña</label>
+            <div class="pass-row">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Tu contraseña"
+                required
+                minlength="8"
+                aria-required="true"
+              />
+              <div class="pass-actions" aria-hidden="false">
+                <button
+                  type="button"
+                  class="icon-btn"
+                  id="togglePwd"
+                  aria-label="Mostrar contraseña"
+                >
+                  👁️
+                </button>
+                <button
+                  type="button"
+                  class="icon-btn"
+                  id="pasteDemo"
+                  title="Pegar password demo"
+                >
+                  🧾
+                </button>
+              </div>
+            </div>
+            <div
+              class="strength"
+              aria-hidden="false"
+              title="Fuerza de la contraseña"
+            >
+              <i id="strengthBar" style="width: 0%"></i>
+            </div>
+            <div id="pwdHint" class="hint">
+              Mínimo 8 caracteres, mezcla mayúsculas, números y símbolos para
+              mejor seguridad.
+            </div>
+          </div>
+
+          <!-- Captcha simple -->
+          <div>
+            <label for="botcheck" class="checkbox"
+              ><input id="botcheck" type="checkbox" /> No soy un robot (suma
+              sencilla incluida)</label
+            >
+            <div id="mathQ" class="hint" aria-live="polite"></div>
+          </div>
+
+          <!-- Remember -->
+          <div
+            class="row"
+            style="justify-content: space-between; align-items: center"
+          >
+            <label class="checkbox"
+              ><input id="remember" type="checkbox" /> Recordarme</label
+            >
+            <a href="#" id="openForgot" class="small"
+              >¿Olvidaste tu contraseña?</a
+            >
+          </div>
+
+          <div id="feedback" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn" id="loginBtn">
+            Iniciar sesión
+          </button>
+
+          <div style="display: flex; gap: 10px; align-items: center">
+            <div
+              style="
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.03);
+              "
+            ></div>
+            <div class="small" style="flex-shrink: 0">o</div>
+            <div
+              style="
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.03);
+              "
+            ></div>
+          </div>
+
+          <div
+            class="socials"
+            role="group"
+            aria-label="Iniciar con redes sociales"
+          >
+            <button type="button" class="social-btn" data-provider="google">
+              Iniciar con Google
+            </button>
+            <button type="button" class="social-btn" data-provider="github">
+              Iniciar con GitHub
+            </button>
+            <button type="button" class="social-btn" data-provider="twitter">
+              Iniciar con Twitter
+            </button>
+          </div>
+
+          <div class="help-line">
+            <div class="hint">
+              ¿No tenés cuenta? <a href="#" id="openRegister">Crear cuenta</a>
+            </div>
+            <div class="hint">
+              Soporte:
+              <a href="mailto:soporte@mitiuw.com">soporte@mitiuw.com</a>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <!-- Modal backdrop (register / forgot) -->
+    <div
+      id="modal"
+      class="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal" role="document">
+        <button
+          id="closeModal"
+          class="icon-btn"
+          style="float: right"
+          aria-label="Cerrar"
+        >
+          ✖
+        </button>
+        <div id="modalContent">
+          <!-- Placeholder: filled by JS -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ---------------------------------------------------------
+   Funcionalidad JS incluida:
+   - Tema persistente (localStorage)
+   - Recordar email (localStorage)
+   - Validación y mensajes
+   - Mostrar / ocultar contraseña
+   - Barra de fuerza de contraseña
+   - Simulación de social login + demo login
+   - Modal de registro / recuperar password
+   - Captcha matemático simple
+   --------------------------------------------------------- */
+
+      /* Helpers */
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => document.querySelectorAll(sel);
+
+      /* Demo credentials */
+      const DEMO_EMAIL = "demo@mitiuw.com";
+      const DEMO_PASS = "DemoPass123";
+
+      /* Elements */
+      const body = document.body;
+      const app = $("#app");
+      const themeToggle = $("#themeToggle");
+      const emailInput = $("#email");
+      const passInput = $("#password");
+      const togglePwdBtn = $("#togglePwd");
+      const pasteDemoBtn = $("#pasteDemo");
+      const strengthBar = $("#strengthBar");
+      const rememberChk = $("#remember");
+      const loginForm = $("#loginForm");
+      const feedback = $("#feedback");
+      const modal = $("#modal");
+      const modalContent = $("#modalContent");
+      const openForgot = $("#openForgot");
+      const openRegister = $("#openRegister");
+      const socialBtns = document.querySelectorAll(".social-btn");
+      const mathQ = $("#mathQ");
+      const botcheck = $("#botcheck");
+
+      /* --- Theme control --- */
+      const THEME_KEY = "mitiuw_theme";
+      function applyTheme(theme) {
+        if (theme === "light") {
+          document.documentElement.classList.add("light");
+          themeToggle.textContent = "☀️ Claro";
+          themeToggle.setAttribute("aria-pressed", "true");
+        } else {
+          document.documentElement.classList.remove("light");
+          themeToggle.textContent = "🌙 Modo";
+          themeToggle.setAttribute("aria-pressed", "false");
+        }
+      }
+      const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+      applyTheme(savedTheme);
+      themeToggle.addEventListener("click", () => {
+        const next = document.documentElement.classList.contains("light")
+          ? "dark"
+          : "light";
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+      });
+
+      /* --- Remember email --- */
+      const EMAIL_KEY = "mitiuw_email";
+      const savedEmail = localStorage.getItem(EMAIL_KEY);
+      if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberChk.checked = true;
+      }
+
+      /* --- Password show/hide --- */
+      togglePwdBtn.addEventListener("click", () => {
+        const t =
+          passInput.getAttribute("type") === "password" ? "text" : "password";
+        passInput.setAttribute("type", t);
+        togglePwdBtn.textContent = t === "text" ? "🙈" : "👁️";
+        togglePwdBtn.setAttribute("aria-pressed", t === "text");
+      });
+
+      /* Paste demo pass */
+      pasteDemoBtn.addEventListener("click", () => {
+        passInput.value = DEMO_PASS;
+        updateStrength();
+      });
+
+      /* --- Strength meter --- */
+      function calcStrength(p) {
+        let score = 0;
+        if (!p) return 0;
+        if (p.length >= 8) score += 1;
+        if (/[A-Z]/.test(p)) score += 1;
+        if (/[0-9]/.test(p)) score += 1;
+        if (/[^A-Za-z0-9]/.test(p)) score += 1;
+        if (p.length >= 12) score += 1;
+        return score; // 0..5
+      }
+      function updateStrength() {
+        const s = calcStrength(passInput.value);
+        const pct = (s / 5) * 100;
+        strengthBar.style.width = pct + "%";
+        // color changes via gradient in CSS; update aria-label
+        strengthBar.parentElement.setAttribute(
+          "aria-label",
+          "Fuerza: " + s + " de 5"
+        );
+      }
+      passInput.addEventListener("input", updateStrength);
+
+      /* --- Simple math captcha --- */
+      let captchaAnswer = null;
+      function genCaptcha() {
+        const a = Math.floor(Math.random() * 9) + 1;
+        const b = Math.floor(Math.random() * 9) + 1;
+        captchaAnswer = a + b;
+        mathQ.textContent = `Resuelve: ${a} + ${b} = ? (marcá "No soy un robot" y luego escribe la suma en tu cabeza)`;
+      }
+      genCaptcha();
+
+      /* --- Modal handling --- */
+      function openModal(contentHtml) {
+        modalContent.innerHTML = contentHtml;
+        modal.style.display = "flex";
+        modal.setAttribute("aria-hidden", "false");
+        // focus first input if any
+        setTimeout(() => {
+          const fi = modal.querySelector("input, button, a");
+          if (fi) fi.focus();
+        }, 120);
+      }
+      function closeModal() {
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      /* Close modal */
+      $("#closeModal").addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      /* Register modal content (demo) */
+      openRegister.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        openModal(`
+    <h3>Crear cuenta</h3>
+    <p class="hint">Registro rápido (demo). Al crear una cuenta en esta demo no se guarda en servidor.</p>
+    <form id="regForm">
+      <label>Nombre</label><input required name="name" />
+      <label>Correo</label><input required name="email" type="email" />
+      <label>Contraseña</label><input required name="password" type="password" minlength="8" />
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn" type="submit">Crear cuenta</button>
+        <button type="button" class="icon-btn" id="cancelReg">Cancelar</button>
+      </div>
+    </form>
+  `);
+        document
+          .getElementById("cancelReg")
+          .addEventListener("click", closeModal);
+        document.getElementById("regForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData(e.target);
+          closeModal();
+          feedback.innerHTML =
+            '<div class="success">Cuenta creada (simulación). Revisá tu correo demo@example.com</div>';
+        });
+      });
+
+      /* Forgot password modal */
+      openForgot.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        openModal(`
+    <h3>Recuperar contraseña</h3>
+    <p class="hint">Introducí tu correo y te enviaremos instrucciones (simulado).</p>
+    <form id="forgotForm">
+      <label>Correo</label><input required name="email" type="email" />
+      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" type="submit">Enviar</button><button type="button" class="icon-btn" id="cancelForgot">Cancelar</button></div>
+    </form>
+  `);
+        document
+          .getElementById("cancelForgot")
+          .addEventListener("click", closeModal);
+        document
+          .getElementById("forgotForm")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            closeModal();
+            feedback.innerHTML =
+              '<div class="success">Si el correo existe, hemos enviado un enlace de recuperación (simulado).</div>';
+          });
+      });
+
+      /* Social login simulation */
+      socialBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const provider = btn.getAttribute("data-provider");
+          feedback.innerHTML = `<div class="hint">Redirigiendo a ${provider}... (simulado)</div>`;
+          setTimeout(() => {
+            feedback.innerHTML = `<div class="success">Iniciaste sesión con ${provider} (simulado). Bienvenido a Mitiuw 👋</div>`;
+          }, 900 + Math.random() * 800);
+        });
+      });
+
+      /* --- Form submit: validation + demo auth --- */
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        feedback.innerHTML = "";
+        const email = emailInput.value.trim();
+        const pass = passInput.value;
+        // Basic HTML5 validation
+        if (!email || !pass) {
+          feedback.innerHTML =
+            '<div class="error">Completá todos los campos.</div>';
+          return;
+        }
+        if (pass.length < 8) {
+          feedback.innerHTML =
+            '<div class="error">La contraseña debe tener al menos 8 caracteres.</div>';
+          return;
+        }
+
+        // Check "captcha" (must be checked and compute sum)
+        if (!botcheck.checked) {
+          feedback.innerHTML =
+            '<div class="error">Por favor confirmá que no sos un robot.</div>';
+          return;
+        }
+
+        // If all good, verify demo credential
+        if (email.toLowerCase() === DEMO_EMAIL && pass === DEMO_PASS) {
+          // save remember
+          if (rememberChk.checked) localStorage.setItem(EMAIL_KEY, email);
+          else localStorage.removeItem(EMAIL_KEY);
+          feedback.innerHTML =
+            '<div class="success">Inicio de sesión correcto. Bienvenido a Mitiuw 🎉</div>';
+          // Simulate redirect after short delay
+          setTimeout(() => {
+            feedback.innerHTML +=
+              '<div class="hint">Redirigiendo al feed (simulado)…</div>';
+          }, 700);
+        } else {
+          // basic fuzzy checks for helpful messages
+          if (email.toLowerCase() !== DEMO_EMAIL) {
+            feedback.innerHTML =
+              '<div class="error">Correo no reconocido. Probá con demo@mitiuw.com</div>';
+          } else {
+            feedback.innerHTML =
+              '<div class="error">Contraseña incorrecta. Probá con DemoPass123 (presioná el botón 🧾 para pegarla).</div>';
+          }
+        }
+      });
+
+      /* --- Extra: accessibility niceties and keyboard shortcuts --- */
+      document.addEventListener("keydown", (e) => {
+        // Ctrl+M abrir modal de registro (dev shortcut)
+        if (e.ctrlKey && e.key.toLowerCase() === "m") {
+          e.preventDefault();
+          openRegister.click();
+        }
+      });
+
+      /* Focus first field */
+      emailInput.focus();
+
+      /* small utility: when checking the "No soy robot" ask for sum via prompt to verify (for extra) */
+      botcheck.addEventListener("change", (ev) => {
+        if (ev.target.checked) {
+          // Ask user for the sum to confirm (simple)
+          setTimeout(() => {
+            const ans = prompt(
+              "Para comprobar: ¿cuánto es " +
+                captchaAnswer +
+                "? (Ingresá solo el número)"
+            );
+            // if matches nothing, uncheck and show hint
+            if (String(ans).trim() !== String(captchaAnswer)) {
+              botcheck.checked = false;
+              feedback.innerHTML =
+                '<div class="error">No coincide la suma. Volvé a intentar.</div>';
+              genCaptcha();
+            } else {
+              feedback.innerHTML =
+                '<div class="success">Verificación completada.</div>';
+              genCaptcha(); // regen for next time
+            }
+          }, 80);
+        }
+      });
+
+      /* Visual: update mathQ occasionally for clarity */
+      setInterval(() => {
+        if (Math.random() < 0.02) genCaptcha();
+      }, 8000);
+    </script>
+  </body>
+</html>
