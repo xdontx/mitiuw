@@ -1,0 +1,165 @@
+<!--
+  mitiuw_index.html
+  Inicio básico de una red social (sin CSS ni JavaScript) — solo HTML semántico.
+  Instrucciones: copiar este archivo a index.html y abrir en un navegador.
+  Contiene: cabecera, navegación, formulario de nueva publicación, feed de posts, barra lateral de perfil y tendencias.
+  NOTA: sin estilos ni scripts — se puede añadir CSS/JS más tarde para mejorar apariencia y comportamiento.
+-->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mitiuw — Inicio</title>
+</head>
+<body>
+  <!-- Cabecera principal -->
+  <header>
+    <div>
+      <h1><a href="#" aria-label="mitiuw inicio">mitiuw</a></h1>
+      <!-- Navegación principal -->
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Explorar</a></li>
+          <li><a href="#">Notificaciones</a></li>
+          <li><a href="#">Mensajes</a></li>
+        </ul>
+      </nav>
+      <!-- Búsqueda simple -->
+      <form action="#" method="get" role="search" aria-label="Buscar en mitiuw">
+        <label for="search-input">Buscar</label>
+        <input id="search-input" name="q" type="search" placeholder="Buscar usuarios o publicaciones">
+        <button type="submit">Ir</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- Área principal con contenido y barra lateral -->
+  <main>
+    <!-- Columna de contenido (feed) -->
+    <section aria-labelledby="feed-heading">
+      <h2 id="feed-heading">Inicio</h2>
+
+      <!-- Formulario para crear nueva publicación (funciona como HTML básico) -->
+      <article aria-labelledby="compose-heading">
+        <h3 id="compose-heading">Crear publicación</h3>
+        <form action="#" method="post" enctype="multipart/form-data" aria-label="Formulario crear publicación">
+          <label for="post-text">¿Qué está pasando?</label>
+          <textarea id="post-text" name="content" rows="4" placeholder="Escribe algo en mitiuw..."></textarea>
+
+          <div>
+            <label for="post-image">Agregar imagen (opcional)</label>
+            <input id="post-image" name="image" type="file" accept="image/*">
+          </div>
+
+          <div>
+            <label for="post-visibility">Visibilidad</label>
+            <select id="post-visibility" name="visibility">
+              <option value="public">Público</option>
+              <option value="followers">Seguidores</option>
+              <option value="private">Privado</option>
+            </select>
+          </div>
+
+          <button type="submit">Publicar</button>
+        </form>
+      </article>
+
+      <!-- Feed: lista de publicaciones de ejemplo -->
+      <ol aria-label="Lista de publicaciones">
+        <!-- Post 1 -->
+        <li>
+          <article aria-labelledby="post-1-title">
+            <header>
+              <a href="#" aria-label="Perfil de usuario">
+                <!-- imagen de perfil como texto alternativo (sin CSS ni imágenes externas) -->
+                <span>[Avatar]</span>
+                <strong>usuario_ejemplo</strong>
+              </a>
+              <time datetime="2025-10-28">28 oct 2025</time>
+            </header>
+            <h4 id="post-1-title">Salida al parque</h4>
+            <p>Hoy probé un lugar nuevo para entrenar y salió genial. ¿Alguien se anima a ir la próxima semana?</p>
+            <figure>
+              <figcaption>Foto del entrenamiento (imagen de ejemplo)</figcaption>
+            </figure>
+            <footer>
+              <a href="#">Me gusta</a> · <a href="#">Comentar</a> · <a href="#">Compartir</a>
+            </footer>
+          </article>
+        </li>
+
+        <!-- Post 2 -->
+        <li>
+          <article aria-labelledby="post-2-title">
+            <header>
+              <a href="#" aria-label="Perfil de otra persona">
+                <span>[Avatar]</span>
+                <strong>amiga_dev</strong>
+              </a>
+              <time datetime="2025-10-27">27 oct 2025</time>
+            </header>
+            <h4 id="post-2-title">Recomendación de libros</h4>
+            <p>Acabo de terminar un libro increíble sobre diseño de interfaces. Lo súper recomiendo.</p>
+            <footer>
+              <a href="#">Me gusta</a> · <a href="#">Comentar</a>
+            </footer>
+          </article>
+        </li>
+
+      </ol>
+    </section>
+
+    <!-- Barra lateral: perfil, tendencias, sugerencias -->
+    <aside aria-labelledby="sidebar-heading">
+      <h2 id="sidebar-heading">Perfil</h2>
+      <section aria-labelledby="profile-heading">
+        <h3 id="profile-heading">dylan Rodríguez</h3>
+        <p>@dylan</p>
+        <p>Bio corta: jugador de fútbol, dev y fan de la tecnología.</p>
+        <nav aria-label="Acciones de perfil">
+          <ul>
+            <li><a href="#">Perfil</a></li>
+            <li><a href="#">Configuración</a></li>
+            <li><a href="#">Cerrar sesión</a></li>
+          </ul>
+        </nav>
+      </section>
+
+      <section aria-labelledby="trending-heading">
+        <h3 id="trending-heading">Tendencias</h3>
+        <ol>
+          <li><a href="#">#fútbol</a></li>
+          <li><a href="#">#mitiuw</a></li>
+          <li><a href="#">#desarrollo</a></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="suggested-heading">
+        <h3 id="suggested-heading">A quién seguir</h3>
+        <ul>
+          <li>
+            <a href="#">dev_amigo</a>
+            <form action="#" method="post" style="display:inline;">
+              <button type="submit">Seguir</button>
+            </form>
+          </li>
+          <li>
+            <a href="#">entrenador_local</a>
+            <form action="#" method="post" style="display:inline;">
+              <button type="submit">Seguir</button>
+            </form>
+          </li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Pie de página simple -->
+  <footer>
+    <p>&copy; 2025 mitiuw — <a href="#">Terminos</a> · <a href="#">Privacidad</a></p>
+  </footer>
+
+</body>
+</html>
